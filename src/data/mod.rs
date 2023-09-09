@@ -88,7 +88,8 @@ impl LatLon {
 }
 
 pub enum FindMeError {
-    FailedToCalculateDistance
+    FailedToCalculateDistance,
+    UnknownPost(u64)
 }
 
 #[derive(Deserialize)]

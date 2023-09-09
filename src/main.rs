@@ -1,10 +1,11 @@
 use std::collections::HashMap;
-use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
+
 use rocket::{launch, Rocket, State};
-use rocket::yansi::Color::Default;
+use rocket::fairing::Fairing;
+use rocket_cors::{Cors, CorsOptions};
+
 use crate::data::db::{InMemoryDatabase, PostDatabase};
-use crate::data::{DisasterType, LatLon, PostStub};
 use crate::endpoints::RegisterEndpoints;
 
 mod data;
@@ -14,7 +15,12 @@ pub type DbState<'a> = State<Arc<Mutex<Box<dyn PostDatabase>>>>;
 
 #[launch]
 fn launch() -> _ {
+    let cors_options = CorsOptions::default();
+
+    let cors : Cors = cors_options.to_cors().unwrap();
+
     Rocket::build()
+        .attach(cors)
         .register_all()
         .manage(Arc::new(Mutex::new(Box::new(InMemoryDatabase {
             stubs: Vec::new(),

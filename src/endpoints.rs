@@ -1,8 +1,8 @@
 use rocket::{Build, get, put, Rocket, routes};
-use rocket::http::Status;
+use rocket::http::{RawStr, Status};
 use rocket::serde::json::Json;
 
-use crate::data::{LatLon, Post, PostIn, PostStub};
+use crate::data::{LatLon, Post, PostComment, PostIn, PostStub};
 use crate::data::db::PostDatabase;
 use crate::DbState;
 
@@ -15,7 +15,8 @@ impl RegisterEndpoints for Rocket<Build> {
         self.mount("/posts", routes![
             get_post_stubs,
             get_post_by_id,
-            put_post
+            put_post,
+            put_comment
         ])
     }
 }
@@ -62,11 +63,22 @@ fn get_post_by_id<'a>(
 }
 
 
-#[put("/new", data = "<post>")]
+#[put("/", data = "<post>")]
 fn put_post<'a>(
     post: Json<PostIn>,
     db: &DbState<'a>,
 ) -> Result<(), Status> {
     let mut guard = db.lock().unwrap();
     (*guard).insert_post(post.0).map_err(|_| Status::InternalServerError)
+}
+
+#[put("/comment?<post>", data = "<comment>")]
+fn put_comment<'a>(
+    post: u64,
+    comment: Json<PostComment>,
+    db: &DbState<'a>
+) -> Result<(), Status> {
+
+    let mut guard = db.lock().unwrap();
+    (*guard).insert_comment(post, comment.0).map_err(|_| Status::NotFound)
 }
