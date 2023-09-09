@@ -1,0 +1,12 @@
+{
+  "name": "OMG HI",
+  "image": "Test/test",
+  "description": "Ok OK",
+  "age": 20,
+  "last_seen": 10,
+  "last_location": {
+    "lat": 10,
+    "lon": 10
+  },
+  "disaster_type": "CarCrash"
+}
