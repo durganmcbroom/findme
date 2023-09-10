@@ -1,0 +1,13 @@
+#cardContainer {
+    margin: 100px auto;
+    width: 50vw;
+}
+
+.card {
+    width: 50vw;
+    transform: translateX(0);
+}
+
+.cardDescription {
+    margin: 15px
+}

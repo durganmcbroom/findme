@@ -1,0 +1,21 @@
+#headerBar {
+    width: 100vw;
+    height: 20px;
+    margin: 20px 20px 50px;
+    display: block;
+}
+
+#headerTitle {
+    font-size: 50px;
+    /*margin: 15px 30px;*/
+}
+
+#headerTitle span:nth-child(2) {
+    font-weight: bolder;
+}
+
+#makeReport {
+    /*float: right;*/
+    margin: auto 50px;
+}
+
